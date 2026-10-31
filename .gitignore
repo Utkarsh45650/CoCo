@@ -1,4 +1,28 @@
+# Secrets
 .env
+
+# Python virtual environment
 .venv/
+venv/
+
+# Python cache files
 __pycache__/
 *.py[cod]
+
+# Test and coverage output
+.coverage
+htmlcov/
+
+# Logs and temporary files
+logs/*
+*.log
+*.wav
+
+# Downloaded voice and recognition models
+models/piper/*.onnx
+models/piper/*.onnx.json
+models/vosk/
+
+# Local editor files
+.vscode/
+.idea/

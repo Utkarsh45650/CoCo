@@ -1,86 +1,55 @@
-# COCO — Minimal Groq Voice Prototype
+# COCO — AI Desk Companion
 
-This project has no database, web server, microphone, wake-word detector, or optional services. It accepts typed input in the terminal, sends conversation to Groq, and speaks responses locally through eSpeak NG.
+COCO is a modular Python AI companion prototype designed
+for children aged 5–8.
 
-## Structure
+## Features
 
-```text
-coco_minimal/
-├── .env.example
-├── .gitignore
-├── requirements.txt
-├── main.py
-└── coco/
-    ├── __init__.py
-    ├── config.py
-    ├── ai/
-    │   ├── __init__.py
-    │   └── groq_client.py
-    └── audio/
-        ├── __init__.py
-        └── speaker.py
-```
+- Groq-hosted conversational AI
+- Keyboard input
+- Optional microphone input using Vosk
+- Local speech generation using Piper
+- Temporary in-memory conversation history
+- Configurable model paths and behaviour
+- Graceful handling of optional audio failures
 
-## Install system dependencies
+## Requirements
 
-```bash
-sudo apt update
-sudo apt install -y python3-venv espeak-ng alsa-utils
-```
+- Raspberry Pi 4 or compatible Linux computer
+- Python 3.10 or newer
+- Internet access for Groq API requests
+- Groq API key
+- Audio output device
+- Optional compatible microphone input device
 
-## Python environment
+## Setup
 
-Run from the project folder:
+1. Create and activate a Python virtual environment.
+2. Install requirements.txt.
+3. Copy .env.example to .env.
+4. Add your Groq API key to .env.
+5. Download the Piper voice model.
+6. Download and extract the Vosk model.
+7. Run the application.
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
-```
+## Start
 
-## Configure Groq
+    source .venv/bin/activate
+    python main.py
 
-Create an API key at https://console.groq.com/keys, then:
+## Commands
 
-```bash
-cp .env.example .env
-nano .env
-```
+- /help
+- /reset
+- /quit
 
-Replace the placeholder value for `GROQ_API_KEY`. Never commit or share `.env`.
+## Privacy
 
-Default model: `llama-3.3-70b-versatile`. Model availability may change; if Groq reports the model is unavailable or decommissioned, select a currently available chat model in Groq Console and update `GROQ_MODEL`.
+Conversation history is kept in memory during the session.
+The application does not intentionally persist conversations.
+Messages submitted to Groq are processed by a hosted service.
 
-## Check audio
+## Safety
 
-Connect your headset to the Raspberry Pi itself. SSH does not automatically route Pi audio to the laptop.
-
-```bash
-wpctl status
-espeak-ng "Hello, this is COCO. The speaker is working."
-```
-
-If needed, set the headset as default using its actual sink ID from `wpctl status`:
-
-```bash
-wpctl set-default DEVICE_ID
-wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.55
-```
-
-## Run
-
-```bash
-python main.py
-```
-
-Type a message and press Enter. Commands: `/reset` clears in-memory conversation history; `/quit` exits.
-
-No chat history is written to disk. The app sends the typed message, the system prompt, and limited in-memory conversation context to Groq. Do not enter real children's personal or sensitive information in this prototype.
-
-## Troubleshooting
-
-- Missing key: check `.env` is in the project root.
-- API error: verify API key, internet connectivity, and model availability in Groq Console.
-- Missing speech: install `espeak-ng` and run the audio test.
-- No headset sound: ensure headset is connected to the Pi and inspect `wpctl status`.
+This is a prototype. It is not a substitute for adult
+supervision, professional advice, or emergency services.
